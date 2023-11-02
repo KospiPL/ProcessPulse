@@ -1,0 +1,132 @@
+﻿@page "/terminal-selection"
+@using ProcessPulse.App.Services
+@using ProcessPulse.BibliotekaKlas.ProcessPulse.Models
+@using Plotly.Blazor
+@using Plotly.Blazor.LayoutLib
+@using Plotly.Blazor.Traces
+@using System.Collections.Generic
+@using Plotly.Blazor.Traces.ScatterLib;
+@using System.Timers;
+
+@inject ApiService ApiService
+
+<h1>Wybór terminala</h1>
+
+<!-- Dropdown do wyboru terminala -->
+<label for="terminalDropdown">Wybierz terminal:</label>
+<select id="terminalDropdown" @bind="selectedTerminal">
+    <option value="Terminal1">Terminal 1</option>
+    <option value="Terminal2">Terminal 2</option>
+</select>
+
+<button @onclick="() => FetchData()">Pobierz dane</button>
+
+<!-- Wykresy -->
+@if (cpuData.Any() && ramData.Any())
+{
+    <PlotlyChart Data="@cpuDataConverted" Layout="@cpuLayout" @ref="cpuChart" />
+    <PlotlyChart Data="@ramDataConverted" Layout="@ramLayout" @ref="ramChart" />
+}
+
+@code {
+    private string selectedTerminal = "Terminal1";
+    private List<ProcessInfo> processInfos = new List<ProcessInfo>();
+    private Timer timer;
+    private List<Scatter> cpuData = new List<Scatter>();
+    private List<ITrace> cpuDataConverted => cpuData.Cast<ITrace>().ToList();
+    private Layout cpuLayout = new Layout { Title = new Title { Text = "CPU Usage (%)" } };
+    private PlotlyChart cpuChart;
+    private PlotlyChart ramChart;
+    private List<Scatter> ramData = new List<Scatter>();
+    private List<ITrace> ramDataConverted => ramData.Cast<ITrace>().ToList();
+    private Layout ramLayout = new Layout { Title = new Title { Text = "RAM Usage (MB)" } };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            timer = new Timer(15000);
+            timer.Elapsed += async (sender, e) => await FetchData();
+            timer.Start();
+        }
+    }
+
+    private async Task FetchData()
+    {
+        try
+        {
+            if (ApiService == null)
+            {
+                Console.WriteLine("ApiService jest null");
+                return;
+            }
+
+            if (!processInfos.Any())  
+            {
+                processInfos = (await ApiService.GetLastTenRecordsAsync(selectedTerminal)).OrderBy(p => p.Time).ToList();
+            }
+            else  
+            {
+                var latestProcessInfo = await ApiService.GetProcessAsync(selectedTerminal);
+                if (latestProcessInfo != null)
+                {
+                    processInfos.Add(latestProcessInfo);  
+
+                    if (processInfos.Count > 10)
+                    {
+                        processInfos.RemoveAt(0);  
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Nie znaleziono nowych informacji o procesie");
+                    return;
+                }
+            }
+
+            await InvokeAsync(() =>
+            {
+                UpdateChartData();
+                StateHasChanged();
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Wystąpił błąd: {ex.Message}");
+        }
+    }
+    private Task UpdateChartData()
+    {
+        var parsedModeFlag = ModeFlag.Lines | ModeFlag.Markers;
+
+        List<object> timePoints = processInfos.Select(p => (object)p.Time.ToString()).ToList();
+
+        cpuData = new List<Scatter>
+        {
+        new Scatter
+        {
+            X = timePoints,
+            Y = processInfos.Select(p => (object)p.CpuUsage).ToList(),
+            Mode = parsedModeFlag,
+            Name = "CPU Usage"
+        }
+        };
+
+        ramData = new List<Scatter>
+       {
+        new Scatter
+        {
+            X = timePoints,
+            Y = processInfos.Select(p => (object)(p.RamUsage / 1024.0)).ToList(),
+            Mode = parsedModeFlag,
+            Name = "RAM Usage"
+        }
+        };
+        InvokeAsync(StateHasChanged);
+        cpuChart?.Replot(cpuLayout, cpuDataConverted);
+        ramChart?.Replot(ramLayout, ramDataConverted);
+        return Task.CompletedTask;
+    }
+}
+
+
