@@ -1,8 +1,7 @@
-﻿using ProcessPulse.Class.Service;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
-using NLog;
+using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+using ProcessPulse.Class.Service;
 
 namespace ClientApp_RESTApi.Controllers
 {
@@ -14,14 +13,13 @@ namespace ClientApp_RESTApi.Controllers
 
         public ProcessController(IProcessRepository processRepository)
         {
-            _processRepository = processRepository;
+            _processRepository = processRepository ?? throw new ArgumentNullException(nameof(processRepository));
         }
 
         [HttpGet("getProcesses")]
         public async Task<IActionResult> GetProcesses(string terminalId)
         {
             var process = await _processRepository.GetProcessByTerminalIdAsync(terminalId);
-
             if (process != null)
             {
                 return Ok(process);
@@ -36,8 +34,7 @@ namespace ClientApp_RESTApi.Controllers
         public async Task<IActionResult> GetLastTenRecords(string terminalId)
         {
             var records = await _processRepository.GetLastTenRecordsByTerminalIdAsync(terminalId);
-
-            if (records.Any())
+            if (records != null && records.Count > 0)
             {
                 return Ok(records);
             }
@@ -47,7 +44,6 @@ namespace ClientApp_RESTApi.Controllers
             }
         }
     }
-
 }
 
 
