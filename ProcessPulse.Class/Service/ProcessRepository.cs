@@ -1,7 +1,7 @@
 ﻿using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ProcessPulse.Api.Service
+namespace ProcessPulse.Class.Service
 {
     public interface IProcessRepository
     {

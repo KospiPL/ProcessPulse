@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Text.Json.Serialization;
 using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
-using ProcessPulse.Api.Service;
+using ProcessPulse.Class.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 

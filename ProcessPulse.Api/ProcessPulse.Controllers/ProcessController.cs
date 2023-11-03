@@ -1,9 +1,8 @@
-﻿using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+﻿using ProcessPulse.Class.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using NLog;
-using ProcessPulse.Api.Service;
 
 namespace ClientApp_RESTApi.Controllers
 {

@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions;
+using ProcessPulse.Class.Service;
 
 namespace ProcessPulse.BibliotekaKlas.ProcessPulse.Models
 {
@@ -59,6 +60,7 @@ namespace ProcessPulse.BibliotekaKlas.ProcessPulse.Models
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddScoped<IProcessDatabase, ProcessDatabase>();
+            services.AddScoped<IProcessRepository, ProcessRepository>();
         }
     }
 }
