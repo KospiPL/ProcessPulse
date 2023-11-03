@@ -23,7 +23,7 @@ namespace ProcessPulse.BibliotekaKlas.ProcessPulse.Models
             modelBuilder.Entity<ProcessInfo>(entity =>
             {
                 entity.Property(e => e.Id)
-                      .ValueGeneratedOnAdd();
+                      .UseIdentityColumn();
 
                 entity.Property(e => e.Id_Process)
                       .ValueGeneratedNever();
@@ -54,7 +54,7 @@ namespace ProcessPulse.BibliotekaKlas.ProcessPulse.Models
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            string connectionString = "Data Source=kacpercudzik.database.windows.net;Initial Catalog=ProcessPulse;Persist Security Info=True;User ID=Kacpercudzik;Password=AChiscHeDEnEl#";  
+            string connectionString = "Data Source=kacpercudzik.database.windows.net;Initial Catalog=ProcessPulse;Persist Security Info=True;User ID=Kacpercudzik;Password=AChiscHeDEnEl#";
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));

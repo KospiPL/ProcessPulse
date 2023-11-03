@@ -25,39 +25,32 @@ public class Worker : BackgroundService
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var processInfoService = scope.ServiceProvider.GetRequiredService<ProcessInfoService>();
-                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
                 try
                 {
-                    // Retrieve the machine name
-                    var machineName = Environment.MachineName;
+                    // Pobranie nazwy maszyny
+                    string hostName = Environment.MachineName;
 
-                    // Get the process name for the machine from the TerminalMapping table
-                    var terminalMapping = await dbContext.TerminalMapping
-                        .FirstOrDefaultAsync(t => t.TerminalId == machineName, stoppingToken);
-
-                    if (terminalMapping != null)
+                    // Pobranie nazwy procesu na podstawie nazwy maszyny
+                    string processName = await processInfoService.GetProcessNameByHostNameAsync(hostName);
+                    if (!string.IsNullOrEmpty(processName))
                     {
-                        // Get process information based on the process name
-                        var processInfos = await processInfoService.GetProcessNameByHostNameAsync(terminalMapping.Name);
-                       
-
-                       
-                        _logger.LogInformation($"Successfully retrieved and saved process info for {machineName} at {DateTime.UtcNow}");
+                        // Pobranie danych o procesie i zapisanie ich w bazie danych
+                        await processInfoService.GetProcessResourceDataByNameAsync(processName);
                     }
                     else
                     {
-                        _logger.LogWarning($"No terminal mapping found for machine name: {machineName}");
+                        _logger.LogWarning($"Nie znaleziono mapowania dla maszyny o nazwie: {hostName}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error occurred while retrieving and saving process info.");
+                    _logger.LogError($"Wyst¹pi³ wyj¹tek podczas zbierania danych o procesie: {ex}");
                 }
-            }
 
-            // Wait some time before running the loop again
-            await Task.Delay(60000, stoppingToken); // waits for 60 seconds
+                // Odczekanie pewnego czasu przed kolejn¹ iteracj¹
+                await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+            }
         }
     }
 }

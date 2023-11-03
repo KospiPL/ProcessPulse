@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 public class ProcessInfoService
 {
+    string hostName = Environment.MachineName; // Pobranie nazwy hosta
     private readonly AppDbContext _dbContext;
 
     public ProcessInfoService(AppDbContext dbContext)
@@ -15,15 +16,13 @@ public class ProcessInfoService
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<string> GetProcessResourceDataAsync()
+    public async Task<string> GetProcessResourceDataByNameAsync(string processName)
     {
         try
         {
-            string hostName = Environment.MachineName; // Pobranie nazwy hosta
-            var processName = await GetProcessNameByHostNameAsync(hostName); // Załóżmy, że ta metoda istnieje
             if (string.IsNullOrEmpty(processName))
             {
-                return JsonConvert.SerializeObject(new { Error = "Nie znaleziono procesu dla hosta." });
+                return JsonConvert.SerializeObject(new { Error = "Nazwa procesu nie może być pusta." });
             }
 
             DateTime currentTime = DateTime.Now;
@@ -94,7 +93,8 @@ public class ProcessInfoService
                     RamUsage = process.WorkingSet64 / 1024, // Convert to KB
                     Path = process.MainModule?.FileName,
                     NetworkUsage = GetNetworkUsageForProcess(process.Id),
-                    Time = currentTime
+                    Time = currentTime,
+                    TerminalId = hostName
                 };
 
                 processInfos.Add(processInfo);
@@ -114,13 +114,7 @@ public class ProcessInfoService
 
     private float GetNetworkUsageForProcess(int processId)
     {
-        string instanceName = GetProcessInstanceNameFromId(processId);
-        if (string.IsNullOrEmpty(instanceName))
-        {
-            return 0;
-        }
-        var counter = new PerformanceCounter("Network Interface", "Bytes Total/sec", instanceName, readOnly: true);
-        return counter.NextValue();
+        return 0;
     }
 
     private string GetProcessInstanceNameFromId(int processId)

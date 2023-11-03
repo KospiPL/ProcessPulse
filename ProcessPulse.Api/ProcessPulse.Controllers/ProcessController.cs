@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using NLog;
+using ProcessPulse.Api.Service;
 
 namespace ClientApp_RESTApi.Controllers
 {
@@ -10,25 +11,18 @@ namespace ClientApp_RESTApi.Controllers
     [ApiController]
     public class ProcessController : ControllerBase
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        
-        private readonly AppDbContext _dbContext;
-        private readonly HttpClient _httpClient;
-        private readonly Dictionary<string, (string, string)> _terminalProcessMap;
+        private readonly IProcessRepository _processRepository;
 
-        public ProcessController(AppDbContext dbContext, IHttpClientFactory httpClientFactory, Dictionary<string, (string, string)> terminalProcessMap)
+        public ProcessController(IProcessRepository processRepository)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            _httpClient = httpClientFactory?.CreateClient() ?? throw new ArgumentNullException(nameof(httpClientFactory));
-            _terminalProcessMap = terminalProcessMap ?? throw new ArgumentNullException(nameof(terminalProcessMap));
+            _processRepository = processRepository;
         }
+
         [HttpGet("getProcesses")]
         public async Task<IActionResult> GetProcesses(string terminalId)
         {
-            var process = await _dbContext.ProcessInfos
-                                          .Where(p => p.TerminalId == terminalId)
-                                          .OrderByDescending(p => p.Time)
-                                          .FirstOrDefaultAsync();
+            var process = await _processRepository.GetProcessByTerminalIdAsync(terminalId);
+
             if (process != null)
             {
                 return Ok(process);
@@ -42,12 +36,9 @@ namespace ClientApp_RESTApi.Controllers
         [HttpGet("getLastTenRecords")]
         public async Task<IActionResult> GetLastTenRecords(string terminalId)
         {
-            var records = await _dbContext.ProcessInfos
-                                          .Where(p => p.TerminalId == terminalId)
-                                          .OrderByDescending(p => p.Time)
-                                          .Take(10)
-                                          .ToListAsync();
-            if (records != null && records.Count > 0)
+            var records = await _processRepository.GetLastTenRecordsByTerminalIdAsync(terminalId);
+
+            if (records.Any())
             {
                 return Ok(records);
             }
@@ -56,9 +47,8 @@ namespace ClientApp_RESTApi.Controllers
                 return NotFound("Nie znaleziono rekordów dla danego terminalu");
             }
         }
-
-
     }
+
 }
 
 
