@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Text.Json.Serialization;
 using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+using ProcessPulse.Api.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,11 +35,8 @@ void ConfigureServices(WebApplicationBuilder builder)
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Name", Version = "v1" });
     });
+    builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
     builder.Services.AddHttpClient();
-    builder.Services.AddSingleton(new Dictionary<string, (string, string)>
-    {
-    {"http://devel01.intercars.local:8080", ("SentinelAgent", "Terminal1")}
-    });
 
 }
 
