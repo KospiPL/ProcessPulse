@@ -16,7 +16,7 @@
 <label for="terminalDropdown">Wybierz terminal:</label>
 <select id="terminalDropdown" @bind="selectedTerminal">
     <option value="Terminal1">Terminal 1</option>
-    <option value="Terminal2">Terminal 2</option>
+    <option value="DESKTOP-SA4R9OI">Terminal 2</option>
 </select>
 
 <button @onclick="() => FetchData()">Pobierz dane</button>
@@ -61,20 +61,20 @@
                 return;
             }
 
-            if (!processInfos.Any())  
+            if (!processInfos.Any())
             {
                 processInfos = (await ApiService.GetLastTenRecordsAsync(selectedTerminal)).OrderBy(p => p.Time).ToList();
             }
-            else  
+            else
             {
                 var latestProcessInfo = await ApiService.GetProcessAsync(selectedTerminal);
                 if (latestProcessInfo != null)
                 {
-                    processInfos.Add(latestProcessInfo);  
+                    processInfos.Add(latestProcessInfo);
 
                     if (processInfos.Count > 10)
                     {
-                        processInfos.RemoveAt(0);  
+                        processInfos.RemoveAt(0);
                     }
                 }
                 else
@@ -128,5 +128,4 @@
         return Task.CompletedTask;
     }
 }
-
 
