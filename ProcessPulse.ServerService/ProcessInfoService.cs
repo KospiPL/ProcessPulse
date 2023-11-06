@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+using ProcessPulse.Class.ProcessPulse.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

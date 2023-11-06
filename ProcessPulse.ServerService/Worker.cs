@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using ProcessPulse.BibliotekaKlas.ProcessPulse.Models; // Assuming this is where your ProcessInfoService is located
+using ProcessPulse.Class.ProcessPulse.Models; // Assuming this is where your ProcessInfoService is located
 using Microsoft.EntityFrameworkCore;
 
 public class Worker : BackgroundService

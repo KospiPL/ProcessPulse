@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Text.Json.Serialization;
-using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+using ProcessPulse.Class.ProcessPulse.Models;
 using ProcessPulse.Class.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,12 +31,14 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddControllers();
     builder.Services.AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Name", Version = "v1" });
     });
     builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
     builder.Services.AddHttpClient();
+    builder.Services.AddScoped<ITerminalService, TerminalService>();
 
 }
 

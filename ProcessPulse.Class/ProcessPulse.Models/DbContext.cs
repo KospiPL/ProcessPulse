@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
 using System;
 using System.Net.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions;
 using ProcessPulse.Class.Service;
 
-namespace ProcessPulse.BibliotekaKlas.ProcessPulse.Models
+namespace ProcessPulse.Class.ProcessPulse.Models
 {
     public class AppDbContext : DbContext
     {

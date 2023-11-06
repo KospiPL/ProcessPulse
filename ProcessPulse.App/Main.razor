@@ -4,6 +4,9 @@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <NavLink href="/terminal-selection">Wybór terminala</NavLink>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <h3>Przepraszamy, nie można znaleźć strony.</h3>
+            <NavLink href="/">Powrót do strony głównej</NavLink>
+        </LayoutView>
     </NotFound>
 </Router>

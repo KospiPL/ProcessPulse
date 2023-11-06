@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+using ProcessPulse.Class.ProcessPulse.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class Program
