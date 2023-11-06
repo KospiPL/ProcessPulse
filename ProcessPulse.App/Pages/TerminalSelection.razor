@@ -10,23 +10,42 @@
 
 @inject ApiService ApiService
 
-<h1>Wybór terminala</h1>
+<div class="container mt-4">
+    <h1>Wybór terminala</h1>
 
-<!-- Dropdown do wyboru terminala -->
-<label for="terminalDropdown">Wybierz terminal:</label>
-<select id="terminalDropdown" @bind="selectedTerminal">
-    <option value="Terminal1">Terminal 1</option>
-    <option value="DESKTOP-SA4R9OI">Terminal 2</option>
-</select>
+    <!-- Dropdown do wyboru terminala -->
+    <div class="mb-3">
+        <label for="terminalDropdown" class="form-label">Wybierz terminal:</label>
+        <select id="terminalDropdown" class="form-select" @bind="selectedTerminal">
+            <option value="Terminal1">Terminal 1</option>
+            <option value="DESKTOP-SA4R9OI">Terminal 2</option>
+        </select>
+    </div>
 
-<button @onclick="() => FetchData()">Pobierz dane</button>
+    <button class="btn btn-primary" @onclick="() => FetchData()">Pobierz dane</button>
 
-<!-- Wykresy -->
-@if (cpuData.Any() && ramData.Any())
-{
-    <PlotlyChart Data="@cpuDataConverted" Layout="@cpuLayout" @ref="cpuChart" />
-    <PlotlyChart Data="@ramDataConverted" Layout="@ramLayout" @ref="ramChart" />
-}
+    <!-- Wykresy -->
+    @if (cpuData.Any() && ramData.Any())
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <PlotlyChart Data="@cpuDataConverted" Layout="@cpuLayout" @ref="cpuChart" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <PlotlyChart Data="@ramDataConverted" Layout="@ramLayout" @ref="ramChart" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
 
 @code {
     private string selectedTerminal = "Terminal1";
