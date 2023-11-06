@@ -1,0 +1,132 @@
+﻿@page "/terminal-management"
+@using ProcessPulse.Class.Service
+@using ProcessPulse.Class.ProcessPulse.Models
+@inject ITerminalService TerminalService
+
+<h3>Terminal Management</h3>
+
+<button @onclick="ShowAddTerminalModal">Add Terminal</button>
+
+<!-- Modal for adding a new terminal -->
+@if (isAddTerminalModalOpen)
+{
+    <div class="modal" style="display:block">
+        <div class="modal-content">
+            <span @onclick="HideAddTerminalModal">✖</span>
+            <h4>Add New Terminal</h4>
+            <input type="text" @bind="newTerminal.TerminalId" placeholder="Terminal ID" />
+            <input type="text" @bind="newTerminal.Name" placeholder="Name" />
+            <button @onclick="AddTerminal">Add</button>
+        </div>
+    </div>
+}
+
+<!-- Modal for editing a terminal -->
+@if (isEditTerminalModalOpen)
+{
+    <div class="modal" style="display:block">
+        <div class="modal-content">
+            <span @onclick="HideEditTerminalModal">✖</span>
+            <h4>Edit Terminal</h4>
+            <input type="text" @bind="editingTerminal.TerminalId" placeholder="Terminal ID" />
+            <input type="text" @bind="editingTerminal.Name" placeholder="Name" />
+            <button @onclick="UpdateTerminal">Update</button>
+        </div>
+    </div>
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Terminal ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var terminal in Terminals)
+        {
+            <tr>
+                <td>@terminal.Id</td>
+                <td>@terminal.TerminalId</td>
+                <td>@terminal.Name</td>
+                <td>
+                    <button @onclick="() => ShowEditTerminalModal(terminal)">Edit</button>
+                    <button @onclick="() => DeleteTerminal(terminal.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<TerminalMapping> Terminals = new();
+    private TerminalMapping editingTerminal = new();
+    private TerminalMapping newTerminal = new();
+    private bool isAddTerminalModalOpen = false;
+    private bool isEditTerminalModalOpen = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshTerminals();
+    }
+
+    private void ShowAddTerminalModal()
+    {
+        isAddTerminalModalOpen = true;
+        StateHasChanged();
+    }
+
+    private void HideAddTerminalModal()
+    {
+        isAddTerminalModalOpen = false;
+        StateHasChanged();
+    }
+
+    private async Task AddTerminal()
+    {
+        if (!string.IsNullOrWhiteSpace(newTerminal.TerminalId) && !string.IsNullOrWhiteSpace(newTerminal.Name))
+        {
+            await TerminalService.AddTerminalAsync(newTerminal);
+            await RefreshTerminals();
+            newTerminal = new TerminalMapping(); 
+            HideAddTerminalModal();
+        }
+    }
+
+    private void ShowEditTerminalModal(TerminalMapping terminal)
+    {
+        editingTerminal = terminal;
+        isEditTerminalModalOpen = true;
+        StateHasChanged();
+    }
+
+    private void HideEditTerminalModal()
+    {
+        isEditTerminalModalOpen = false;
+        StateHasChanged();
+    }
+
+    private async Task UpdateTerminal()
+    {
+        if (!string.IsNullOrWhiteSpace(editingTerminal.TerminalId) && !string.IsNullOrWhiteSpace(editingTerminal.Name))
+        {
+            await TerminalService.UpdateTerminalAsync(editingTerminal);
+            await RefreshTerminals();
+            HideEditTerminalModal();
+        }
+    }
+
+    private async Task DeleteTerminal(int id)
+    {
+        await TerminalService.DeleteTerminalAsync(id);
+        await RefreshTerminals();
+    }
+
+    private async Task RefreshTerminals()
+    {
+        Terminals = await TerminalService.GetTerminalsAsync();
+        StateHasChanged();
+    }
+}

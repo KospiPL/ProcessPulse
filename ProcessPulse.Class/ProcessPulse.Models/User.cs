@@ -1,6 +1,6 @@
-﻿using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+﻿using ProcessPulse.Class.ProcessPulse.Models;
 
-namespace ProcessPulse.BibliotekaKlas.ProcessPulse.Models
+namespace ProcessPulse.Class.ProcessPulse.Models
 {
     public class User
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+using ProcessPulse.Class.ProcessPulse.Models;
 using ProcessPulse.Class.Service;
 
 namespace ClientApp_RESTApi.Controllers

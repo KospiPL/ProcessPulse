@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessPulse.ServerService", "ProcessPulse.ServerService\ProcessPulse.ServerService.csproj", "{2AB3B7FE-A756-43F9-9C66-0861175E5BD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessPulse.ServerService", "ProcessPulse.ServerService\ProcessPulse.ServerService.csproj", "{2AB3B7FE-A756-43F9-9C66-0861175E5BD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessPulse.App", "ProcessPulse.App\ProcessPulse.App.csproj", "{8BBCBB60-D23D-4D80-8262-35BD06E91114}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessPulse.App", "ProcessPulse.App\ProcessPulse.App.csproj", "{8BBCBB60-D23D-4D80-8262-35BD06E91114}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessPulse.Class", "ProcessPulse.Class\ProcessPulse.Class.csproj", "{854FE197-8014-41B5-92FC-A5D0926391C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessPulse.Class", "ProcessPulse.Class\ProcessPulse.Class.csproj", "{854FE197-8014-41B5-92FC-A5D0926391C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessPulse.Api", "ProcessPulse.Api\ProcessPulse.Api.csproj", "{19B9D634-460B-4C42-A01A-C98E14334E12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessPulse.Api", "ProcessPulse.Api\ProcessPulse.Api.csproj", "{19B9D634-460B-4C42-A01A-C98E14334E12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

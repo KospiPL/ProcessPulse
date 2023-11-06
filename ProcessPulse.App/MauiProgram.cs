@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ProcessPulse.App.Data;
 using ProcessPulse.App.Services;
+using ProcessPulse.Class.ProcessPulse.Models;
+using ProcessPulse.Class.Service;
 
 namespace ProcessPulse.App
 {
@@ -17,6 +20,11 @@ namespace ProcessPulse.App
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                // Dla SQL Server
+                options.UseSqlServer("Data Source=kacpercudzik.database.windows.net;Initial Catalog=ProcessPulse;Persist Security Info=True;User ID=Kacpercudzik;Password=AChiscHeDEnEl#");
+            });
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
@@ -24,7 +32,7 @@ namespace ProcessPulse.App
 #endif
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<ApiService>();
-
+            builder.Services.AddScoped< ITerminalService , TerminalService > ();
             builder.Services.AddSingleton<WeatherForecastService>();
 
             return builder.Build();

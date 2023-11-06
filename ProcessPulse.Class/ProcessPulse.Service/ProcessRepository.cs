@@ -1,4 +1,4 @@
-﻿using ProcessPulse.BibliotekaKlas.ProcessPulse.Models;
+﻿using ProcessPulse.Class.ProcessPulse.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ProcessPulse.Class.Service
