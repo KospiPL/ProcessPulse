@@ -3,20 +3,35 @@
 @using ProcessPulse.Class.ProcessPulse.Models
 @inject ITerminalService TerminalService
 
-<h3>Terminal Management</h3>
+<h3 class="mb-3">Terminal Management</h3>
 
-<button @onclick="ShowAddTerminalModal">Add Terminal</button>
+<button class="btn btn-primary" @onclick="ShowAddTerminalModal">Add Terminal</button>
 
 <!-- Modal for adding a new terminal -->
 @if (isAddTerminalModalOpen)
 {
-    <div class="modal" style="display:block">
-        <div class="modal-content">
-            <span @onclick="HideAddTerminalModal">✖</span>
-            <h4>Add New Terminal</h4>
-            <input type="text" @bind="newTerminal.TerminalId" placeholder="Terminal ID" />
-            <input type="text" @bind="newTerminal.Name" placeholder="Name" />
-            <button @onclick="AddTerminal">Add</button>
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Terminal</h5>
+                    <button type="button" class="btn-close" @onclick="HideAddTerminalModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="terminalId" class="form-label">Terminal ID</label>
+                        <input class="form-control" id="terminalId" type="text" @bind="newTerminal.TerminalId" placeholder="Terminal ID" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="terminalName" class="form-label">Name</label>
+                        <input class="form-control" id="terminalName" type="text" @bind="newTerminal.Name" placeholder="Name" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="HideAddTerminalModal">Close</button>
+                    <button type="button" class="btn btn-primary" @onclick="AddTerminal">Add</button>
+                </div>
+            </div>
         </div>
     </div>
 }
@@ -24,18 +39,33 @@
 <!-- Modal for editing a terminal -->
 @if (isEditTerminalModalOpen)
 {
-    <div class="modal" style="display:block">
-        <div class="modal-content">
-            <span @onclick="HideEditTerminalModal">✖</span>
-            <h4>Edit Terminal</h4>
-            <input type="text" @bind="editingTerminal.TerminalId" placeholder="Terminal ID" />
-            <input type="text" @bind="editingTerminal.Name" placeholder="Name" />
-            <button @onclick="UpdateTerminal">Update</button>
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Terminal</h5>
+                    <button type="button" class="btn-close" @onclick="HideEditTerminalModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="editTerminalId" class="form-label">Terminal ID</label>
+                        <input class="form-control" id="editTerminalId" type="text" @bind="editingTerminal.TerminalId" placeholder="Terminal ID" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTerminalName" class="form-label">Name</label>
+                        <input class="form-control" id="editTerminalName" type="text" @bind="editingTerminal.Name" placeholder="Name" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="HideEditTerminalModal">Close</button>
+                    <button type="button" class="btn btn-primary" @onclick="UpdateTerminal">Update</button>
+                </div>
+            </div>
         </div>
     </div>
 }
 
-<table>
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>ID</th>
@@ -52,8 +82,8 @@
                 <td>@terminal.TerminalId</td>
                 <td>@terminal.Name</td>
                 <td>
-                    <button @onclick="() => ShowEditTerminalModal(terminal)">Edit</button>
-                    <button @onclick="() => DeleteTerminal(terminal.Id)">Delete</button>
+                    <button class="btn btn-outline-primary btn-sm" @onclick="() => ShowEditTerminalModal(terminal)">Edit</button>
+                    <button class="btn btn-outline-danger btn-sm" @onclick="() => DeleteTerminal(terminal.Id)">Delete</button>
                 </td>
             </tr>
         }
