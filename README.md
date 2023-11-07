@@ -38,6 +38,10 @@ Aplikacja ProcessPulse to kompleksowe narzędzie do monitorowania procesów na r
     ```bash
     dotnet ef database update
     ```
+6. Zainstaluj usługę Windows za pomocą polecenia:
+    ```bash
+    sc create "NazwaTwojejUsługi" binPath= "C:\ ścieżka do pilku ProcessPulse.ServiceServer.exe"
+    ```
 
 ## Użycie
 1. **Serwer** - Uruchom serwis Windows, który zbiera informacje o procesach na terminalach.
