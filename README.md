@@ -1,10 +1,8 @@
 # ProcessPulse
 
-![LOgo aplikacji](https://github.com/KospiPL/ProcessPulse/assets/105883537/aa3daff9-6351-4e8c-a91d-1479f4804d20)
+![Aplikacja ProcessPulse](https://github.com/KospiPL/ProcessPulse/assets/105883537/aa3daff9-6351-4e8c-a91d-1479f4804d20)
 
-
-
-Aplikacja do monitorowania procesów na różnych terminalach, składająca się z trzech głównych komponentów: REST API, Serwer oraz Klient (aplikacja okienkowa).
+Aplikacja ProcessPulse to kompleksowe narzędzie do monitorowania procesów na różnych terminalach. Składa się z kilku głównych komponentów, w tym REST API, serwisu Windows, biblioteki klas oraz interfejsu użytkownika w postaci aplikacji .NET MAUI Blazor.
 
 ## Spis treści
 - [Wymagania](#wymagania)
@@ -17,14 +15,13 @@ Aplikacja do monitorowania procesów na różnych terminalach, składająca się
 - [Podziękowania](#podziękowania)
 
 ## Wymagania
-- .NET Framework 4.8
-- .NET Core 3.1
+- .NET 7.0
+- Usługa Windows
 - Entity Framework
-- Windows Forms
-- PowerShell
+- .NET MAUI Blazor
 - SQL Server
 
-[Przeczytaj więcej o instalacji](link_do_instrukcji_instalacji.md)
+[Więcej informacji na temat wymagań](link_do_instrukcji_instalacji.md)
 
 ## Instalacja
 1. Sklonuj repozytorium na swój lokalny komputer:
@@ -43,20 +40,20 @@ Aplikacja do monitorowania procesów na różnych terminalach, składająca się
     ```
 
 ## Użycie
-1. **Serwer** - Uruchom serwis Windows, który zacznie zbierać dane o procesach.
-2. **REST API** - Uruchom, aby umożliwić komunikację między serwerem a klientem.
-3. **Klient** - Uruchom aplikację okienkową i użyj przycisku "Fetch Data", aby pobrać i wyświetlić dane o procesach.
+1. **Serwer** - Uruchom serwis Windows, który zbiera informacje o procesach na terminalach.
+2. **REST API** - Uruchom API umożliwiające komunikację między serwerem a klientem.
+3. **Klient** - Uruchom aplikację .NET MAUI Blazor i użyj przycisku "Fetch Data", aby pobierać i wyświetlać informacje o procesach.
 
-[Zobacz więcej przykładów użycia](link_do_dokumentacji.md)
+[Zobacz przykłady użycia](link_do_dokumentacji.md)
 
 ## Funkcje
-- Zbieranie danych o procesach w czasie rzeczywistym.
-- Możliwość przeglądania danych o procesach na różnych terminalach.
-- Zapisywanie danych w bazie danych.
-- Możliwość rozszerzenia o dodatkowe funkcje, takie jak alerty czy raporty.
+- Monitorowanie procesów w czasie rzeczywistym.
+- Przeglądanie danych na różnych terminalach.
+- Zapisywanie danych w bazie.
+- Edycja terminali i procesów.
 
 ## Wsparcie
-W razie problemów lub pytań skontaktuj się ze mną poprzez [Kacper.cudzik11@gmail.com](mailto:kacper.cudzik11@gmail.com).
+W razie problemów lub pytań skontaktuj się z autorem: [Kacper.cudzik11@gmail.com](mailto:kacper.cudzik11@gmail.com).
 
 ## Licencja
 [MIT](LICENSE)
@@ -65,4 +62,4 @@ W razie problemów lub pytań skontaktuj się ze mną poprzez [Kacper.cudzik11@g
 Kacper Cudzik
 
 ## Podziękowania
-Podziękowania dla wszystkich, którzy przyczynili się do tego projektu!
+Dziękujemy wszystkim, którzy przyczynili się do tego projektu!
