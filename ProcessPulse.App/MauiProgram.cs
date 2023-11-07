@@ -33,7 +33,7 @@ namespace ProcessPulse.App
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 // Dla SQL Server
-                options.UseSqlServer("Data Source=kacpercudzik.database.windows.net;Initial Catalog=ProcessPulse;Persist Security Info=True;User ID=Kacpercudzik;Password=AChiscHeDEnEl#");
+                options.UseSqlServer("twój connection string ");
             });
 
 #if DEBUG

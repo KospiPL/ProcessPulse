@@ -27,18 +27,39 @@
     <!-- Wykresy -->
     @if (cpuData.Any() && ramData.Any())
     {
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <PlotlyChart Data="@cpuDataConverted" Layout="@cpuLayout" @ref="cpuChart" />
+        <div class="container mt-3">
+            <div class="row">
+                <!-- Karta dla wykresu CPU -->
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">CPU Usage (%)</h5>
+                            @if (cpuData.Any())
+                            {
+                                <PlotlyChart Data="@cpuDataConverted" Layout="@cpuLayout" @ref="cpuChart" />
+                            }
+                            else
+                            {
+                                <p class="text-muted">Loading chart...</p>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <PlotlyChart Data="@ramDataConverted" Layout="@ramLayout" @ref="ramChart" />
+
+                <!-- Karta dla wykresu RAM -->
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">RAM Usage (MB)</h5>
+                            @if (ramData.Any())
+                            {
+                                <PlotlyChart Data="@ramDataConverted" Layout="@ramLayout" @ref="ramChart" />
+                            }
+                            else
+                            {
+                                <p class="text-muted">Loading chart...</p>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
