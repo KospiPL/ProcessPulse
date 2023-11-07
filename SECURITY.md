@@ -1,21 +1,26 @@
-# Security Policy
+# Polityka Bezpieczeństwa
 
-## Supported Versions
+## Wspierane Wersje
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Użyj tej sekcji, aby poinformować użytkowników, które wersje projektu są obecnie obsługiwane poprzez aktualizacje zabezpieczeń.
 
-| Version | Supported          |
+| Wersja  | Obsługiwana        |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| 7.0.x   | :white_check_mark: |
+| 6.0.x   | :white_check_mark: |
+| 5.0.x   | :x:                | 
+| < 5.0   | :x:                |
 
-## Reporting a Vulnerability
+## Zgłaszanie Zagrożeń
 
-Use this section to tell people how to report a vulnerability.
+Jeśli masz do czynienia z potencjalnym zagrożeniem, prosimy o jego zgłoszenie na platformie GitHub:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+1. Przejdź do [strony zgłaszania problemów](https://github.com/KospiPL/ProcessPulse/issues).
+2. Kliknij "New Issue" (Nowy problem) i wybierz "Security Report" (Raport zabezpieczeń).
+3. Opisz zagrożenie jak najdokładniej i zamieść odpowiednie dane.
+4. Nasz zespół ds. bezpieczeństwa regularnie sprawdza zgłoszenia i podejmuje działania.
+
+## Aktualizacje Zabezpieczeń
+
+Zabezpieczenia są aktualizowane regularnie. Aktualizacje te są dostępne w [sekcji wydań projektu](https://github.com/KospiPL/ProcessPulse/releases) na GitHubie.
+
