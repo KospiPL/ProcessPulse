@@ -3,7 +3,6 @@ using ProcessPulse.Class.Service;
 using ProcessPulse.Class.ProcessPulse.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ProcessPulse.Class.ProcessPulse.Models;
 
 namespace YourApiProject.Controllers
 {

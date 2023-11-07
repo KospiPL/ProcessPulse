@@ -54,7 +54,7 @@ namespace ProcessPulse.Class.ProcessPulse.Models
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            string connectionString = "Data Source=kacpercudzik.database.windows.net;Initial Catalog=ProcessPulse;Persist Security Info=True;User ID=Kacpercudzik;Password=AChiscHeDEnEl#";
+            string connectionString = "twój connectio strring";
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));

@@ -14,7 +14,7 @@ namespace ProcessPulse.App.Services
         }
         public async Task<List<ProcessInfo>> GetLastTenRecordsAsync(string terminalId)
         {
-            var apiUrlForLastTenRecords = "https://processpulse.azurewebsites.net/api/Process/getLastTenRecords"; // Załóżmy, że masz taki endpoint
+            var apiUrlForLastTenRecords = "https://processpulse.azurewebsites.net/api/Process/getLastTenRecords"; 
             var response = await _httpClient.GetAsync($"{apiUrlForLastTenRecords}?terminalId={terminalId}");
             if (response.IsSuccessStatusCode)
             {
