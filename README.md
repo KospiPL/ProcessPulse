@@ -46,7 +46,7 @@ Aplikacja ProcessPulse to kompleksowe narzędzie do monitorowania procesów na r
     sc create "NazwaTwojejUsługi" binPath= "C:\ ścieżka do pilku ProcessPulse.ServiceServer.exe"
     ```
 
-## WkładwProcessPulse
+## Wkład w ProcessPulse
 -LInk do wkładu w aplikacje [Link do plik](https://github.com/KospiPL/ProcessPulse/blob/master/CONTRIBUTING.md)
 
 
