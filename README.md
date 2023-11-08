@@ -1,6 +1,7 @@
 # ProcessPulse
 
-![Aplikacja ProcessPulse](https://github.com/KospiPL/ProcessPulse/assets/105883537/aa3daff9-6351-4e8c-a91d-1479f4804d20)
+![Aplikacja ProcessPulse](https://github.com/KospiPL/ProcessPulse/assets/105883537/f11db89e-3d94-4436-9ad6-241b6364a6f6)
+
 
 Aplikacja ProcessPulse to kompleksowe narzędzie do monitorowania procesów na różnych terminalach. Składa się z kilku głównych komponentów, w tym REST API, serwisu Windows, biblioteki klas oraz interfejsu użytkownika w postaci aplikacji .NET MAUI Blazor.
 
