@@ -11,9 +11,11 @@ Aplikacja ProcessPulse to kompleksowe narzędzie do monitorowania procesów na r
 - [Użycie](#użycie)
 - [Funkcje](#funkcje)
 - [Wsparcie](#wsparcie)
+- [Wkład w ProcessPulse](#"WkładwProcessPulse")
 - [Licencja](#licencja)
 - [Autor](#autor)
 - [Podziękowania](#podziękowania)
+  
 
 ## Wymagania
 - .NET 7.0
@@ -43,6 +45,10 @@ Aplikacja ProcessPulse to kompleksowe narzędzie do monitorowania procesów na r
     ```bash
     sc create "NazwaTwojejUsługi" binPath= "C:\ ścieżka do pilku ProcessPulse.ServiceServer.exe"
     ```
+
+## WkładwProcessPulse
+-LInk do wkładu w aplikacje [Link do plik](https://github.com/KospiPL/ProcessPulse/blob/master/CONTRIBUTING.md)
+
 
 ## Użycie
 1. **Serwer** - Uruchom serwis Windows, który zbiera informacje o procesach na terminalach.
