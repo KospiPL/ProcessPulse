@@ -4,8 +4,8 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Text.Json.Serialization;
-using ProcessPulse.Class.ProcessPulse.Models;
 using ProcessPulse.Class.Service;
+using ProcessPulse.Class.ProcessPulse.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

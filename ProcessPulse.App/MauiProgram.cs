@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ProcessPulse.App.Data;
 using ProcessPulse.App.Services;
-using ProcessPulse.Class.ProcessPulse.Models;
 using ProcessPulse.Class.Service;
 using Blazorise.Icons.FontAwesome;
-
+using ProcessPulse.Class.ProcessPulse.Models;
 
 namespace ProcessPulse.App
 {
@@ -33,7 +32,7 @@ namespace ProcessPulse.App
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 // Dla SQL Server
-                options.UseSqlServer("twój connection string ");
+                options.UseSqlServer("Data Source=kacpercudzik.database.windows.net;Initial Catalog=ProcessPulse;Persist Security Info=True;User ID=Kacpercudzik;Password=AChiscHeDEnEl#");
             });
 
 #if DEBUG

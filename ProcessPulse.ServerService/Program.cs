@@ -1,8 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ProcessPulse.Class.ProcessPulse.Models;
 using Microsoft.EntityFrameworkCore;
+using ProcessPulse.ServerService.ProcessPulse.Service;
+using Oracle.EntityFrameworkCore;
+using ProcessPulse.Class.ProcessPulse.Models;
+using ProcessPulse.ServerService.ProcessPulse.Dbcontext;
 
 public class Program
 {
@@ -13,21 +16,21 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
-            .UseWindowsService() // Konfiguracja aplikacji do uruchomienia jako us³uga Windows
+            .UseWindowsService()
             .ConfigureServices((hostContext, services) =>
             {
-                // Rejestrowanie DbContext
                 services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(hostContext.Configuration.GetConnectionString("DefaultConnection")));
+                services.AddDbContext<FlotaDbContext>(options =>
+                    options.UseOracle(hostContext.Configuration.GetConnectionString("FlotaDatabase")));
 
-                // Rejestrowanie ProcessInfoService jako us³ugi o czasie ¿ycia 'scoped'
                 services.AddScoped<ProcessInfoService>();
-
-                // Rejestrowanie Worker jako us³ugi hostowanej, która dzia³a jako singleton
                 services.AddHostedService<Worker>();
 
-                // Konfiguracja logowania, jeœli potrzebne
+                services.AddScoped<SafoDatabaseService>();
+                services.AddHttpClient<OsbService>();
+                services.AddHostedService<ServerStatusService>();
+
                 services.AddLogging(configure => configure.AddConsole());
             });
 }
-
