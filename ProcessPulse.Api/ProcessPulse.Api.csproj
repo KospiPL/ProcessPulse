@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProcessPulse.Class\ProcessPulse.Class.csproj" />
+    <ProjectReference Include="..\ProcessPulse.ServerService\ProcessPulse.ServerService.csproj" />
   </ItemGroup>
 
 </Project>
