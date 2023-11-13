@@ -13,5 +13,6 @@ namespace ProcessPulse.ServerService.ProcessPulse.Dbcontext
         public FlotaDbContext(DbContextOptions<FlotaDbContext> options) : base(options) { }
 
         public DbSet<FlotaModel> FlotaModels { get; set; }
-    }  
+    }
 }
+

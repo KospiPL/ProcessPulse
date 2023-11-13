@@ -13,5 +13,6 @@ namespace ProcessPulse.ServerService.ProcessPulse.Dbcontext
         public SafoDbContext(DbContextOptions<SafoDbContext> options) : base(options) { }
 
         public DbSet<SafoModel> SafoModels { get; set; }
+
     }
 }

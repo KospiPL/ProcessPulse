@@ -9,6 +9,8 @@ namespace ProcessPulse.Class.ProcessPulse.Models
     public class SafoModel
     {
         public int Id { get; set; }
+        public bool IsConnectedSafo { get; set; }
+        public bool IsConnectedNav { get; set; }
         public DateTime? Data { get; set; }
     }
 }

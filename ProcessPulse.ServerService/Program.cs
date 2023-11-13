@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using ProcessPulse.ServerService.ProcessPulse.Service;
-using Oracle.EntityFrameworkCore;
+using Oracle.EntityFrameworkCore; 
 using ProcessPulse.Class.ProcessPulse.Models;
 using ProcessPulse.ServerService.ProcessPulse.Dbcontext;
 
@@ -19,18 +19,26 @@ public class Program
             .UseWindowsService()
             .ConfigureServices((hostContext, services) =>
             {
+                // Konfiguracja kontekstów DbContext
                 services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(hostContext.Configuration.GetConnectionString("DefaultConnection")));
                 services.AddDbContext<FlotaDbContext>(options =>
-                    options.UseOracle(hostContext.Configuration.GetConnectionString("FlotaDatabase")));
+                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("FlotaDatabase")));
+                services.AddDbContext<SafoDbContext>(options =>
+                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("SafoDatabase")));
 
+                // Rejestracja us³ug
                 services.AddScoped<ProcessInfoService>();
                 services.AddHostedService<Worker>();
+                services.AddHttpClient();
+                services.AddScoped<FlotaService>(provider =>
+                    new FlotaService(
+                        provider.GetRequiredService<FlotaDbContext>(),
+                        provider.GetRequiredService<IConfiguration>().GetConnectionString("OracleConnection") 
+                    ));
+                services.AddScoped<SafoService>();
 
-                services.AddScoped<SafoDatabaseService>();
-                services.AddHttpClient<OsbService>();
-                services.AddHostedService<ServerStatusService>();
-
+                // Rejestracja logowania
                 services.AddLogging(configure => configure.AddConsole());
             });
 }
