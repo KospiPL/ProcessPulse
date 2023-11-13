@@ -52,10 +52,10 @@ public class Worker : BackgroundService
     {
         var processInfoService = scope.ServiceProvider.GetRequiredService<ProcessInfoService>();
 
-        try
-        {
-            // Pobranie nazwy maszyny
-            string hostName = Environment.MachineName;
+                try
+                {
+                    // Pobranie nazwy maszyny
+                    string hostName = Environment.MachineName;
 
             // Pobranie nazwy procesu na podstawie nazwy maszyny
             string processName = await processInfoService.GetProcessNameByHostNameAsync(hostName);
