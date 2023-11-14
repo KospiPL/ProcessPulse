@@ -6,11 +6,12 @@ using System;
 using System.Text.Json.Serialization;
 using ProcessPulse.Class.Service;
 using ProcessPulse.Class.ProcessPulse.Models;
+using ProcessPulse.ServerService.ProcessPulse.Dbcontext;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Konfiguracja us³ug
-ConfigureServices(builder);
+ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -19,29 +20,35 @@ ConfigurePipeline(app);
 
 app.Run();
 
-void ConfigureServices(WebApplicationBuilder builder)
+void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
-    builder.Services.AddControllers()
+    services.AddControllers()
         .AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.PropertyNamingPolicy = null;
             options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
-    builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddControllers();
-    builder.Services.AddSwaggerGen(c =>
+
+    // Konfiguracja kontekstów baz danych
+    services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+    services.AddDbContext<SafoDbContext>(options =>
+        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+    services.AddDbContext<FlotaDbContext>(options =>
+        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+    services.AddEndpointsApiExplorer();
+    services.AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Name", Version = "v1" });
     });
     builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
     builder.Services.AddHttpClient();
     builder.Services.AddScoped<ITerminalService, TerminalService>();
-
 }
-
 static IHostBuilder CreateHostBuilder(string[] args)
 {
     return Host.CreateDefaultBuilder(args)
@@ -53,7 +60,6 @@ static IHostBuilder CreateHostBuilder(string[] args)
             config.AddEnvironmentVariables();
         });
 }
-
 void ConfigurePipeline(WebApplication app)
 {
     //if (app.Environment.IsDevelopment())
