@@ -19,21 +19,22 @@ namespace ProcessPulse.ServerService.ProcessPulse.SoapServices
 
       writer.WriteStartElement("wsse", "Username", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
       
-//#if (DEBUG || Test)
-//      writer.WriteValue("fleet");
-//#else
-//      writer.WriteValue("fleet");
-//#endif
+      #if (DEBUG || Test)
+      writer.WriteValue("fleet");
+      #else
+      writer.WriteValue("fleet");
+      #endif
       writer.WriteEndElement();
 
       writer.WriteStartElement("wsse", "Password", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
       writer.WriteAttributeString("Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
+      
      
-//#if (DEBUG || Test)
-//      writer.WriteValue("fleet#abc123");
-//#else
-//      writer.WriteValue("fleet#gta132");
-//#endif
+      #if (DEBUG || Test)
+      writer.WriteValue("fleet#abc123");
+      #else
+      writer.WriteValue("fleet#gta132");
+      #endif
       writer.WriteEndElement();
 
       writer.WriteEndElement();

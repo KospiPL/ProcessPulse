@@ -1,44 +1,94 @@
-﻿using ProcessPulse.ServerService.ProcessPulse.Dbcontext;
-using ProcessPulse.Class.ProcessPulse.Models;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
-using ProcessPulse.ServerService.ProcessPulse.SoapServices; 
-using Azure;
+using ProcessPulse.ServerService.ProcessPulse.Dbcontext;
+using ProcessPulse.Class.ProcessPulse.Models;
 using OSB;
+using ProcessPulse.ServerService.ProcessPulse.SoapServices;
+using System.ServiceModel.Channels;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace ProcessPulse.ServerService.ProcessPulse.Service
+public class SafoService
 {
-    public class SafoService
+    private readonly ptSalesOrderFulfillmentPLSPortTypeClient _safoClient;
+    private readonly ptSalesOrderFulfillmentPLSPortTypeClient _navClient;
+    private readonly SafoDbContext _dbContext;
+    private readonly IOptions<OrderSettings> _orderSettings;
+
+    public SafoService(ptSalesOrderFulfillmentPLSPortTypeClient safoClient,
+                       ptSalesOrderFulfillmentPLSPortTypeClient navClient,
+                       SafoDbContext dbContext,
+                       IOptions<OrderSettings> orderSettings)
     {
-        private readonly SafoDbContext _safoContext;
-        private readonly ptSalesOrderFulfillmentPLSPortTypeClient _soapClient;
+        _safoClient = safoClient;
+        _navClient = navClient;
+        _dbContext = dbContext;
+        _orderSettings = orderSettings;
 
-        public SafoService(SafoDbContext safoContext, ptSalesOrderFulfillmentPLSPortTypeClient soapClient)
-        {
-            _safoContext = safoContext;
-            _soapClient = soapClient;
-        }
+    }
 
-        private async Task<bool> CheckConnectionAsync(string systemId)
+    public async Task CheckAndCancelOrderAsync(string numerZamowienia)
+    {
+        try
         {
-            try
+            var responseSafo = await CheckServiceAvailabilityAsync(_safoClient, "PL");
+            var responseNav = await CheckServiceAvailabilityAsync(_navClient, "PL_FLEET");
+            LogToDatabase(responseSafo, responseNav);
+
+            if (responseSafo && responseNav)
             {
-                await _soapClient.OpenAsync(systemId); // Zakładamy, że OpenAsync to metoda Twojego klienta SOAP
-                return true; // Jeśli odpowiedź jest nienullowa, zakładamy, że połączenie jest otwarte
-            }
-            catch
-            {
-                return false; // W przypadku wyjątku zakładamy, że połączenie nie jest dostępne
+                await CancelOrderAsync(numerZamowienia);
             }
         }
-
-        public async Task CheckAndStoreSafoConnectionStatus()
+        catch (Exception ex)
         {
-            var isConnectedSafo = await CheckConnectionAsync("PL");
-            var isConnectedNav = await CheckConnectionAsync("PL_FLEET");
-
-            var safoRecord = new SafoModel { IsConnectedSafo = isConnectedSafo, IsConnectedNav = isConnectedNav };
-            _safoContext.SafoModels.Add(safoRecord);
-            await _safoContext.SaveChangesAsync();
+           
         }
+    }
+
+    private async Task CancelOrderAsync(string numerZamowienia)
+    {
+        var cancelCommand = new CancelOrderSafoCommand(_safoClient, _dbContext);
+        await cancelCommand.ExecuteAsync(numerZamowienia);
+    }
+
+    private async Task<bool> CheckServiceAvailabilityAsync(ptSalesOrderFulfillmentPLSPortTypeClient client, string systemId)
+    {
+        try
+        {
+            var requestHeaderEBM = new RequestHeaderEBMType();
+
+            var cancelRequest = new CancelOrderFulfillmentRequestEBM();
+
+            using (new OperationContextScope(client.InnerChannel))
+            {
+                var icSecurityHeader = new IcSecurityHeader();
+                var customHeader = new RequestHeader(systemId);
+
+                OperationContext.Current.OutgoingMessageHeaders.Add(icSecurityHeader);
+                OperationContext.Current.OutgoingMessageHeaders.Add(customHeader);
+
+                var response = await client.opCancelOrderAsync(requestHeaderEBM, cancelRequest);
+                return response != null;
+            }
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+
+    private void LogToDatabase(bool isSafoConnected, bool isNavConnected)
+    {
+        var log = new SafoModel
+        {
+            IsConnectedSafo = isSafoConnected,
+            IsConnectedNav = isNavConnected,
+            Data = DateTime.Now
+        };
+
+        _dbContext.SafoModels.Add(log);
+        _dbContext.SaveChanges();
     }
 }

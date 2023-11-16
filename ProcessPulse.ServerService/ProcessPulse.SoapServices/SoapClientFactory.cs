@@ -24,6 +24,7 @@ namespace ProcessPulse.ServerService.ProcessPulse.SoapServices
             var binding = new BasicHttpBinding(BasicHttpSecurityMode.None);
             var client = new ptSalesOrderFulfillmentPLSPortTypeClient(binding, endPoint);
 
+
             client.Endpoint.RegisterIcSecurity();
             client.Endpoint.RegisterRequestHeader(systemId);
             client.Endpoint.RegisterMaxFaultSize(2097152);

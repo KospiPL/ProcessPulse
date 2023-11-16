@@ -22,32 +22,37 @@ namespace ProcessPulse.ServerService.ProcessPulse.Service
 
         public async Task CheckAndStoreConnectionStatus()
         {
-            // Pobieranie daty dla Floty
-            var dateFlota = await GetDateFromOracleAsync("SELECT SYSDATE FROM DUAL");
-
-            // Pobieranie daty dla SAFO
-            var dateSafo = await GetDateFromOracleAsync("SELECT SYSDATE FROM DUAL@ERP");
+            bool isFlotaDateAvailable = await IsDateAvailableAsync("SELECT SYSDATE FROM DUAL");
+            bool isSafoDateAvailable = await IsDateAvailableAsync("SELECT SYSDATE FROM DUAL@ERP");
 
             var flotaRecord = new FlotaModel
             {
-                FlotaData = dateFlota,
-                SafoData = dateSafo
+                FlotaData = isFlotaDateAvailable,
+                SafoData = isSafoDateAvailable,
+                Date = DateTime.Now
             };
 
             _context.FlotaModels.Add(flotaRecord);
             await _context.SaveChangesAsync();
         }
 
-        private async Task<DateTime?> GetDateFromOracleAsync(string query)
+        private async Task<bool> IsDateAvailableAsync(string query)
         {
-            using (var connection = new OracleConnection(_oracleConnectionString))
+            try
             {
-                await connection.OpenAsync();
-                using (var command = new OracleCommand(query, connection))
+                using (var connection = new OracleConnection(_oracleConnectionString))
                 {
-                    var result = await command.ExecuteScalarAsync();
-                    return result as DateTime?;
+                    await connection.OpenAsync();
+                    using (var command = new OracleCommand(query, connection))
+                    {
+                        var result = await command.ExecuteScalarAsync();
+                        return result is DateTime; 
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                return false; 
             }
         }
     }

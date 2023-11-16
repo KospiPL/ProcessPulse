@@ -84,7 +84,7 @@ public class Worker : BackgroundService
         try
         {
             await flotaService.CheckAndStoreConnectionStatus();
-            await safoService.CheckAndStoreSafoConnectionStatus();
+            await safoService.CheckAndCancelOrderAsync("-1");
             _logger.LogInformation("Dane Floty i SAFO zosta³y zaktualizowane");
         }
         catch (Exception ex)

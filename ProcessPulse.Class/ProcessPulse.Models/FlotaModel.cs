@@ -9,8 +9,12 @@ namespace ProcessPulse.Class.ProcessPulse.Models
     public class FlotaModel
     {
         public int Id { get; set; }
-        public DateTime?  FlotaData { get; set; }
-        public DateTime? SafoData { get; set; }
+        public bool FlotaData { get; set; }
+        public bool SafoData { get; set; }
+        public DateTime Date { get; set; }
     }
-
 }
+
+    
+
+
