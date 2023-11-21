@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client.SSHCertificates;
 using OSB;
 using ProcessPulse.ServerService.ProcessPulse.Dbcontext;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProcessPulse.ServerService.ProcessPulse.SoapServices
@@ -16,61 +12,65 @@ namespace ProcessPulse.ServerService.ProcessPulse.SoapServices
         private readonly SafoDbContext _dbContext;
         private readonly string _numerZamowienia;
 
-
-
         public CancelOrderSafoCommand(
-        ptSalesOrderFulfillmentPLSPortTypeClient safoClient,
-        SafoDbContext dbContext)
+            ptSalesOrderFulfillmentPLSPortTypeClient safoClient,
+            SafoDbContext dbContext,
+            IOptions<OrderSettings> orderSettings)
         {
             _safoClient = safoClient;
             _dbContext = dbContext;
+            _numerZamowienia = orderSettings.Value.DefaultOrderNumber;
         }
 
-
-        public async Task ExecuteAsync(string numerZamowienia)
+        public async Task<bool> ExecuteAsync(string numerZamowienia)
         {
             try
             {
-                var requestHeaderEBM = new OSB.RequestHeaderEBMType();
-                CancelOrderFulfillmentRequestEBM request = PrepareRequest(numerZamowienia);
-                var response = await _safoClient.opCancelOrderAsync(requestHeaderEBM, request);
-               
+                var requestHeaderEBM = CreateRequestHeaderEBM();
+                var cancelRequest = PrepareCancelOrderRequest(numerZamowienia);
+
+                var response = await _safoClient.opCancelOrderAsync(requestHeaderEBM, cancelRequest);
+                return response != null;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-  
-                throw;
+                Console.WriteLine($"Wystąpił wyjątek: {ex.Message}");
+                return false;
             }
         }
 
-        private CancelOrderFulfillmentRequestEBM PrepareRequest(string numerZamowienia)
+        private RequestHeaderEBMType CreateRequestHeaderEBM()
         {
-            var salesOrderEBO = new CancelOrderFulfillmentRequestEBMSalesOrderEBO
+            return new RequestHeaderEBMType
             {
-                Identification = new IdentificationType
+                RequestID = Guid.NewGuid().ToString(),
+                Timestamp = DateTime.UtcNow,
+                TimestampSpecified = true,
+                AuditRecord = new AuditRecordType
                 {
-                    BusinessID = new OSB.ValueType
+                    SystemID = "FLEET",
+                    UserID = "fleet",
+                    CountryID = "PL_FLEET"
+                }
+            };
+        }
+
+        public CancelOrderFulfillmentRequestEBM PrepareCancelOrderRequest(string numerZamowienia)
+        {
+            return new CancelOrderFulfillmentRequestEBM
+            {
+                SalesOrderEBO = new CancelOrderFulfillmentRequestEBMSalesOrderEBO
+                {
+                    OriginalSalesOrderReference = new ReferenceType
                     {
-                        contextName = "PL_SAFO_ORDERID",
-                        Value = numerZamowienia
+                        Identification = new IdentificationType
+                        {
+                            AlternateID = new[] { new OSB.ValueType() { contextName = "FLEET_CARTID", Value = "12345" } }
+                        }
                     }
                 }
             };
-
-            return new CancelOrderFulfillmentRequestEBM
-            {
-                SalesOrderEBO = salesOrderEBO,
-                CancelRelatedPurchaseOrderLine = BasicMarkLOVType.T,
-                CancelRelatedPurchaseOrderLineSpecified = true
-            };
         }
     }
-    public class OrderSettings
-    {
-        public string DefaultOrderNumber { get; set; }
-    }
 }
-
-
-
 

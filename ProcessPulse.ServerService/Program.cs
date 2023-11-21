@@ -37,8 +37,8 @@ public class Program
                 services.AddScoped<ProcessInfoService>();
                 services.AddHostedService<Worker>();
                 services.AddHttpClient();
+                services.Configure<OrderSettings>(hostContext.Configuration.GetSection("OrderSettings"));
                 services.AddScoped<CancelOrderSafoCommand>();
-
                 services.AddScoped<FlotaService>(provider =>
                     new FlotaService(
                         provider.GetRequiredService<FlotaDbContext>(),
@@ -50,16 +50,15 @@ public class Program
                     var binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport);
                     binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
 
-                    var endpointAddress = new EndpointAddress("https://osbicc01t.intercars.local:1116/SOALibrary/EnterpriseServiceLibrary/ProcessLevel/Service/SalesOrderFulfillment/V2");
+                    var endpointAddress = new EndpointAddress("https://osbpre.intercars.local:18012/SOALibrary/EnterpriseServiceLibrary/ProcessLevel/Service/SalesOrderFulfillment/V2");
                     var client = new ptSalesOrderFulfillmentPLSPortTypeClient(binding, endpointAddress);
 
                     // Konfiguracja nag³ówków bezpieczeñstwa (np. IcSecurityHeader)
                     client.Endpoint.RegisterIcSecurity(); 
-
                     // Konfiguracja dodatkowych zachowañ endpointa
                     client.Endpoint.RegisterRequestHeader("PL_FLEET");
                     client.Endpoint.RegisterMaxFaultSize(2097152);
-                    client.ClientCredentials.UserName.UserName = "fleet";
+                    client.ClientCredentials.UserName.UserName = "fleet123";   
                     client.ClientCredentials.UserName.Password = "fleet#abc123";
 
                     // Usuwanie niepotrzebnych zachowañ

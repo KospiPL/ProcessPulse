@@ -4264,6 +4264,13 @@ namespace OSB
         
         /// <remarks/>
         WSPÓŁPRACOWNIK,
+        
+        /// <remarks/>
+        BYŁYPRACOWNIK,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("PRACOWNIK-KARTA")]
+        PRACOWNIKKARTA,
     }
     
     /// <remarks/>
@@ -11119,6 +11126,12 @@ namespace OSB
         
         private string descriptionField;
         
+        private BasicMarkLOVType expositionMarkField;
+        
+        private bool expositionMarkFieldSpecified;
+        
+        private string expositionAddressIDField;
+        
         private CountryType originCountryField;
         
         private string packageNumberField;
@@ -11239,6 +11252,48 @@ namespace OSB
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public BasicMarkLOVType ExpositionMark
+        {
+            get
+            {
+                return this.expositionMarkField;
+            }
+            set
+            {
+                this.expositionMarkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool ExpositionMarkSpecified
+        {
+            get
+            {
+                return this.expositionMarkFieldSpecified;
+            }
+            set
+            {
+                this.expositionMarkFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="normalizedString", Order=7)]
+        public string ExpositionAddressID
+        {
+            get
+            {
+                return this.expositionAddressIDField;
+            }
+            set
+            {
+                this.expositionAddressIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public CountryType OriginCountry
         {
             get
@@ -11252,7 +11307,7 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="normalizedString", Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="normalizedString", Order=9)]
         public string PackageNumber
         {
             get
@@ -11266,7 +11321,7 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="normalizedString", Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="normalizedString", Order=10)]
         public string ProviderPackageNumber
         {
             get
@@ -11280,7 +11335,7 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=9)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=11)]
         [System.Xml.Serialization.XmlArrayItemAttribute("Value", IsNullable=false)]
         public string[] ProductOwners
         {
@@ -11295,7 +11350,7 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public AmountType ItemPriceAmount
         {
             get
@@ -11309,7 +11364,7 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public AmountType RevisedItemPriceAmount
         {
             get
@@ -11323,7 +11378,7 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public AmountType ItemPriceDifferenceAmount
         {
             get
@@ -11337,7 +11392,7 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public CountryType LeadingMarketCode
         {
             get
@@ -12698,9 +12753,7 @@ namespace OSB
         
         private string paymentFactoringField;
         
-        private PaymentMethodLOVType paymentMethodCodeField;
-        
-        private bool paymentMethodCodeFieldSpecified;
+        private string paymentMethodCodeField;
         
         private PaymentStatusLOVType paymentStatusCodeField;
         
@@ -12769,8 +12822,8 @@ namespace OSB
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace="http://intercars.com.pl/SOALibrary/EnterpriseObjectLibrary/Common/V1", Order=3)]
-        public PaymentMethodLOVType PaymentMethodCode
+        [System.Xml.Serialization.XmlElementAttribute(Namespace="http://intercars.com.pl/SOALibrary/EnterpriseObjectLibrary/Common/V1", DataType="normalizedString", Order=3)]
+        public string PaymentMethodCode
         {
             get
             {
@@ -12779,20 +12832,6 @@ namespace OSB
             set
             {
                 this.paymentMethodCodeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool PaymentMethodCodeSpecified
-        {
-            get
-            {
-                return this.paymentMethodCodeFieldSpecified;
-            }
-            set
-            {
-                this.paymentMethodCodeFieldSpecified = value;
             }
         }
         
@@ -12865,77 +12904,6 @@ namespace OSB
                 this.billTypeCodeFieldSpecified = value;
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://intercars.com.pl/SOALibrary/EnterpriseObjectLibrary/Common/V1")]
-    public enum PaymentMethodLOVType
-    {
-        
-        /// <remarks/>
-        LSTYRE24,
-        
-        /// <remarks/>
-        INVOICE,
-        
-        /// <remarks/>
-        DEBIT_CARD,
-        
-        /// <remarks/>
-        P1SB,
-        
-        /// <remarks/>
-        P1CC,
-        
-        /// <remarks/>
-        P1FNC,
-        
-        /// <remarks/>
-        P1WLT,
-        
-        /// <remarks/>
-        P1GP,
-        
-        /// <remarks/>
-        BP,
-        
-        /// <remarks/>
-        ZP,
-        
-        /// <remarks/>
-        OW,
-        
-        /// <remarks/>
-        RU,
-        
-        /// <remarks/>
-        PP,
-        
-        /// <remarks/>
-        AM,
-        
-        /// <remarks/>
-        CH24,
-        
-        /// <remarks/>
-        EBAY_MP,
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlEnumAttribute("KLARNA-CC")]
-        KLARNACC,
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlEnumAttribute("KLARNA-DD")]
-        KLARNADD,
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlEnumAttribute("KLARNA-PL")]
-        KLARNAPL,
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlEnumAttribute("KLARNA-SO")]
-        KLARNASO,
     }
     
     /// <remarks/>
@@ -13377,7 +13345,7 @@ namespace OSB
         
         private bool collectiveOrderPackageMarkFieldSpecified;
         
-        private BasicMarkLOVType reservationMethodMarkField;
+        private BasicMethodMarkLOVType reservationMethodMarkField;
         
         private bool reservationMethodMarkFieldSpecified;
         
@@ -14413,7 +14381,7 @@ namespace OSB
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=52)]
-        public BasicMarkLOVType ReservationMethodMark
+        public BasicMethodMarkLOVType ReservationMethodMark
         {
             get
             {
@@ -14556,6 +14524,22 @@ namespace OSB
         
         /// <remarks/>
         BLC,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://intercars.com.pl/SOALibrary/EnterpriseObjectLibrary/Common/V1")]
+    public enum BasicMethodMarkLOVType
+    {
+        
+        /// <remarks/>
+        L,
+        
+        /// <remarks/>
+        C,
+        
+        /// <remarks/>
+        G,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -15626,7 +15610,7 @@ namespace OSB
             return ((OSB.ptSalesOrderFulfillmentPLSPortType)(this)).opSplitOrderAsync(inValue);
         }
         
-        public virtual System.Threading.Tasks.Task OpenAsync(string systemId)
+        public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
         }
