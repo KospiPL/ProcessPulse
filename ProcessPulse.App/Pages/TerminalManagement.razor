@@ -1,7 +1,8 @@
 ﻿@page "/terminal-management"
 @using ProcessPulse.Class.Service
 @using ProcessPulse.Class.ProcessPulse.Models
-@inject ITerminalService TerminalService
+@using ProcessPulse.App.Services
+@inject ApiService ApiService
 
 <div class="container my-4">
     <h3 class="mb-3">Terminal Management</h3>
@@ -93,7 +94,24 @@
         </table>
     </div>
 </div>
+<style>
+    .modal-content {
+        transition: transform 0.3s ease-out;
+    }
 
+        .modal-content:hover {
+            transform: scale(1.02);
+        }
+
+    .btn-outline-primary, .btn-outline-danger {
+        transition: color 0.2s, background-color 0.2s;
+    }
+
+        .btn-outline-primary:hover, .btn-outline-danger:hover {
+            background-color: #f0f0f0; /* Jasne tło przy hover */
+        }
+    /* Dodatkowe style */
+</style>
 @code {
     private List<TerminalMapping> Terminals = new();
     private TerminalMapping editingTerminal = new();
@@ -122,7 +140,7 @@
     {
         if (!string.IsNullOrWhiteSpace(newTerminal.TerminalId) && !string.IsNullOrWhiteSpace(newTerminal.Name))
         {
-            await TerminalService.AddTerminalAsync(newTerminal);
+            await ApiService.AddTerminalAsync(newTerminal);
             await RefreshTerminals();
             newTerminal = new TerminalMapping(); 
             HideAddTerminalModal();
@@ -146,7 +164,7 @@
     {
         if (!string.IsNullOrWhiteSpace(editingTerminal.TerminalId) && !string.IsNullOrWhiteSpace(editingTerminal.Name))
         {
-            await TerminalService.UpdateTerminalAsync(editingTerminal);
+            await ApiService.UpdateTerminalAsync(editingTerminal);
             await RefreshTerminals();
             HideEditTerminalModal();
         }
@@ -154,13 +172,13 @@
 
     private async Task DeleteTerminal(int id)
     {
-        await TerminalService.DeleteTerminalAsync(id);
+        await ApiService.DeleteTerminalAsync(id);
         await RefreshTerminals();
     }
 
     private async Task RefreshTerminals()
     {
-        Terminals = await TerminalService.GetTerminalsAsync();
+        Terminals = await ApiService.GetTerminalsAsync();
         StateHasChanged();
     }
 }
