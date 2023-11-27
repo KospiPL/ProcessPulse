@@ -1,10 +1,70 @@
 ﻿@page "/settings"
-@using ProcessPulse.Class.ProcessPulse.Models;
-@using ProcessPulse.Class.Service;
+
+<div class="container my-4">
+    <h2>Ustawienia</h2>
+<hr />
+
+    <form>
+        <div class="mb-3">
+            <label for="themeColor" class="form-label">Kolor motywu</label>
+            <select id="themeColor" class="form-select" @bind="selectedTheme">
+                <option value="default">Domyślny</option>
+                <option value="dark">Ciemny</option>
+                <option value="light">Jasny</option>
+            </select>
+        </div>
+        <button class="btn btn-primary">Zapisz</button>       
+    </form>
+
+</div>
 
 
+<style>
+    .container {
+        font-family: 'Arial', sans-serif;
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+    }
 
+    h2 {
+        color: #6f42c1;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #6f42c1;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #8a75d6;
+        }
+</style>
 
 @code {
+    private string selectedTheme;
 
+
+   
 }

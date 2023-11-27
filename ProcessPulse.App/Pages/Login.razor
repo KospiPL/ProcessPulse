@@ -1,0 +1,44 @@
+﻿@page "/login"
+@inject NavigationManager NavigationManager
+
+<h3 class="mb-3">Logowanie</h3>
+
+<EditForm Model="@loginModel" OnValidSubmit="HandleLogin" class="needs-validation" novalidate>
+    <div class="mb-3">
+        <label for="username" class="form-label">Nazwa użytkownika</label>
+        <InputText id="username" class="form-control" @bind-Value="loginModel.Username" />
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Hasło</label>
+        <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
+    </div>
+    <button type="submit" class="btn btn-primary">Zaloguj</button>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    private async Task HandleLogin()
+    {
+        // Logika logowania
+        NavigationManager.NavigateTo("/main");
+    }
+
+    private class LoginModel
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}
+
+<style>
+    .form-control {
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+</style>

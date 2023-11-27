@@ -1,4 +1,4 @@
-﻿@page "/flota"
+﻿@page "/safo-status"
 @using ProcessPulse.App.Services
 @using ProcessPulse.Class.ProcessPulse.Models
 
@@ -9,7 +9,7 @@
         <div class="col-lg-10">
             <div class="card shadow-lg mb-5 border-0 rounded-lg">
                 <div class="card-header bg-purple text-white">
-                    <h4 class="my-0">Status Łączności z Bazami Danych</h4>
+                    <h4 class="my-0">Status Łączności SAFO i NAV</h4>
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-4">
@@ -32,17 +32,17 @@
                             <thead class="bg-light">
                                 <tr>
                                     <th>Data</th>
-                                    <th>Status Łączności z Flotą</th>
-                                    <th>Status Łączności z Safo</th>
+                                    <th>Status Łączności z SAFO</th>
+                                    <th>Status Łączności z NAV</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in flotaData)
+                                @foreach (var item in safoData)
                                 {
                                     <tr>
-                                        <td>@item.Date</td>
+                                        <td>@item.Data</td>
                                         <td>
-                                            @if (item.FlotaData)
+                                            @if (item.IsConnectedSafo)
                                             {
                                                 <span class="badge bg-success">Połączony</span>
                                             }
@@ -52,7 +52,7 @@
                                             }
                                         </td>
                                         <td>
-                                            @if (item.SafoData)
+                                            @if (item.IsConnectedNav)
                                             {
                                                 <span class="badge bg-success">Połączony</span>
                                             }
@@ -80,8 +80,8 @@
 
 <style>
     body {
-        background-color: #f8f9fa; 
-        font-family: 'Open Sans', sans-serif; 
+        background-color: #f8f9fa;
+        font-family: 'Open Sans', sans-serif;
     }
 
     .bg-purple {
@@ -106,12 +106,12 @@
 
     .card {
         background-color: #fff; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     }
 </style>
 
 @code {
-    private List<FlotaModel> flotaData;
+    private List<SafoModel> safoData;
     private bool isLoading = false;
     private bool loadSuccess = false;
     private bool loadError = false;
@@ -124,7 +124,7 @@
 
         try
         {
-            flotaData = await ApiService.GetStatusDataAsync();
+            safoData = await ApiService.GetSafoDataAsync(); 
             loadSuccess = true;
         }
         catch

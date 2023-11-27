@@ -17,8 +17,10 @@
     <div class="mb-3">
         <label for="terminalDropdown" class="form-label">Wybierz terminal:</label>
         <select id="terminalDropdown" class="form-select" @bind="selectedTerminal">
-            <option value="Terminal1">Terminal 1</option>
-            <option value="DESKTOP-SA4R9OI">Terminal 2</option>
+            @foreach (var terminal in terminals)
+            {
+                <option value="@terminal.TerminalId">@terminal.Name</option>
+            }
         </select>
     </div>
 
@@ -66,10 +68,44 @@
         </div>
     }
 </div>
+<style>
+    .container {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .btn-primary {
+        background-color: #6f42c1;
+        border: none;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+        .btn-primary:hover {
+            background-color: #8a75d6;
+            transform: translateY(-2px);
+        }
+
+    .modal-content {
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-select {
+        border-radius: 0.25rem;
+        border: 1px solid #ddd;
+    }
+
+   
+</style>
 
 
 @code {
-    private string selectedTerminal = "Terminal1";
+    private string selectedTerminal;
+    private List<TerminalMapping> terminals = new List<TerminalMapping>();
     private List<ProcessInfo> processInfos = new List<ProcessInfo>();
     private Timer timer;
     private List<Scatter> cpuData = new List<Scatter>();
@@ -166,6 +202,20 @@
         cpuChart?.Replot(cpuLayout, cpuDataConverted);
         ramChart?.Replot(ramLayout, ramDataConverted);
         return Task.CompletedTask;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        terminals = await ApiService.GetTerminalsAsync();
+        if (terminals.Any())
+        {
+            selectedTerminal = terminals.First().TerminalId;
+        }
+    }
+
+    private async Task FetchTerminals()
+    {
+        var terminals = await ApiService.GetTerminalsAsync();
+        
     }
 }
 

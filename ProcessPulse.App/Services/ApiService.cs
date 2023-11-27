@@ -109,6 +109,16 @@ namespace ProcessPulse.App.Services
             }
             return new List<FlotaModel>(); 
         }
+        public async Task<List<SafoModel>> GetSafoDataAsync()
+        {
+            var response = await _httpClient.GetAsync("https://processpulse.azurewebsites.net/api/Safo");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<SafoModel>>(content);
+            }
+            return new List<SafoModel>();
+        }
 
     }
 }

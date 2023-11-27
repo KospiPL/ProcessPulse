@@ -7,25 +7,25 @@
 <div class="container my-4">
     <h3 class="mb-3">Terminal Management</h3>
 
-    <button class="btn btn-primary mb-3" @onclick="ShowAddTerminalModal">Add Terminal</button>
+    <button class="btn btn-primary mb-3" @onclick="ShowAddTerminalModal">Dodaj Terminal</button>
 
     <!-- Modal for adding a new terminal -->
     @if (isAddTerminalModalOpen)
     {
-        <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(10,5,10.10);">
+        <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add New Terminal</h5>
+                        <h5 class="modal-title">Dane Nowego Terminalu</h5>
                         <button type="button" class="btn-close" @onclick="HideAddTerminalModal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="terminalId" class="form-label">Terminal ID</label>
+                            <label for="terminalId" class="form-label">Nazwa terminalu</label>
                             <input class="form-control" id="terminalId" type="text" @bind="newTerminal.TerminalId" placeholder="Terminal ID" />
                         </div>
                         <div class="mb-3">
-                            <label for="terminalName" class="form-label">Name</label>
+                            <label for="terminalName" class="form-label">Nazwa procesu</label>
                             <input class="form-control" id="terminalName" type="text" @bind="newTerminal.Name" placeholder="Name" />
                         </div>
                     </div>
@@ -45,16 +45,16 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Terminal</h5>
+                        <h5 class="modal-title">Edytowanie Terminalu</h5>
                         <button type="button" class="btn-close" @onclick="HideEditTerminalModal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="editTerminalId" class="form-label">Terminal ID</label>
+                            <label for="editTerminalId" class="form-label">Nazwa terminalu</label>
                             <input class="form-control" id="editTerminalId" type="text" @bind="editingTerminal.TerminalId" placeholder="Terminal ID" />
                         </div>
                         <div class="mb-3">
-                            <label for="editTerminalName" class="form-label">Name</label>
+                            <label for="editTerminalName" class="form-label">Nazwa procesu</label>
                             <input class="form-control" id="editTerminalName" type="text" @bind="editingTerminal.Name" placeholder="Name" />
                         </div>
                     </div>
@@ -72,9 +72,9 @@
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Terminal Name</th>
-                    <th>Process Name </th>
-                    <th>Actions</th>
+                    <th>Nazwa terminalu</th>
+                    <th>Nazwa procesu </th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,8 +85,8 @@
                         <td>@terminal.TerminalId</td>
                         <td>@terminal.Name</td>
                         <td>
-                            <button class="btn btn-outline-primary btn-sm" @onclick="() => ShowEditTerminalModal(terminal)">Edit</button>
-                            <button class="btn btn-outline-danger btn-sm" @onclick="() => DeleteTerminal(terminal.Id)">Delete</button>
+                            <button class="btn btn-outline-primary btn-sm" @onclick="() => ShowEditTerminalModal(terminal)">Edytuj</button>
+                            <button class="btn btn-outline-danger btn-sm" @onclick="() => DeleteTerminal(terminal.Id)">Usuń</button>
                         </td>
                     </tr>
                 }
@@ -96,6 +96,9 @@
 </div>
 <style>
     .modal-content {
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 10px rgba(1, 10, 10, 1);
         transition: transform 0.3s ease-out;
     }
 
@@ -103,14 +106,71 @@
             transform: scale(1.02);
         }
 
-    .btn-outline-primary, .btn-outline-danger {
-        transition: color 0.2s, background-color 0.2s;
+    .btn-custom {
+        background-color: #6f42c1;
+        color: white;
+        border: none;
+        transition: background-color 0.2s, transform 0.2s;
     }
 
-        .btn-outline-primary:hover, .btn-outline-danger:hover {
-            background-color: #f0f0f0; /* Jasne tło przy hover */
+        .btn-custom:hover {
+            background-color: #8a75d6;
+            transform: translateY(-2px);
         }
-    /* Dodatkowe style */
+
+    .table-custom {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        .table-custom th, .table-custom td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .table-custom th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .table-custom tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-custom tr:hover {
+            background-color: #E1BEE7;
+        }
+
+    .table-responsive {
+        overflow-y: auto;
+    }
+       .modal-fade-in-out {
+        animation: fadeInOut 0.3s;
+    }
+
+    keyframes fadeInOut {
+        0% { opacity: 0; transform: scale(0.95); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .btn-primary {
+        background-color: #6f42c1;
+        border: none;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+    .btn-outline-primary, .btn-outline-danger {
+        transition: background-color 0.3s, color 0.3s, transform 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .table-custom th, .table-custom td {
+        border-radius: 0.25rem;
+    }
 </style>
 @code {
     private List<TerminalMapping> Terminals = new();
