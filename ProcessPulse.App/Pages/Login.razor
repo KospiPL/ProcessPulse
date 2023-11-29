@@ -4,8 +4,9 @@
 @using GearCode.Common.Auth.Forms.Services
 @using GearCode.Common.Auth.Forms
 @using GC.Auth.Permissions
+@using Microsoft.AspNetCore.Components.Authorization;
 @using ProcessPulse.Class.ProcessPulse.Models
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="container my-4 login-container">
     <h3 class="mb-3 text-center">Logowanie</h3>
@@ -38,14 +39,41 @@
 </div>
 
 <style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .bg-purple {
+        background-color: #6f42c1;
+    }
+
+    .btn-purple {
+        background-color: #6f42c1;
+        color: white;
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .btn-purple:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+        }
+
+    .spinner-border.text-purple {
+        color: #6f42c1;
+    }
+
+    .card {
+        background-color: #fff; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    }
+
     .login-container {
         max-width: 500px;
         margin: 0 auto;
         padding: 20px;
-        border: 1px solid #dee2e6;
         border-radius: 15px;
-        background-color: #f8f9fa;
-        box-shadow: 0 4px 6px rgba(0,0,0,.1);
     }
 </style>
 @code {
@@ -59,12 +87,24 @@
         try
         {
             var status = await IdentityManager.SignInUserAsync();
-            message = $"Status logowania: {status}";
+            if (status == AuthStatus.Succeed) 
+            {
+                if (AuthenticationStateProvider is AuthState authStateProvider)
+                {
+                    authStateProvider.NotifyUserAuthentication(IdentityManager.CurrentIdentity.DisplayName);
+                    
+                }
+            }
+            else
+            {
+                message = $"Status logowania: {status}";
+            }
         }
         catch (Exception ex)
         {
             message = $"Błąd logowania: {ex.Message}";
         }
+
         StateHasChanged();
     }
 
@@ -74,6 +114,11 @@
         {
             await IdentityManager.SignOutUser();
             message = "Wylogowano.";
+            if (AuthenticationStateProvider is AuthState authStateProvider)
+            {
+                authStateProvider.NotifyUserLogout();
+                
+            }
         }
         catch (Exception ex)
         {

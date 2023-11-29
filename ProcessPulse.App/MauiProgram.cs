@@ -3,6 +3,7 @@ using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using GC.Auth.Permissions;
 using GearCode.Common.Auth.Forms;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
 using ProcessPulse.App.Data;
 using ProcessPulse.App.Services;
@@ -43,6 +44,8 @@ namespace ProcessPulse.App
             builder.Services.AddScoped<ApiService>();
             builder.Services.AddScoped<ITerminalService, TerminalService>();
             builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthenticationStateProvider, AuthState>();
 
             return builder.Build();
         }

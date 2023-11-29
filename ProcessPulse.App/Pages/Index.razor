@@ -1,26 +1,86 @@
 ﻿@page "/index"
 
 <div class="container mt-4">
-    <h1>ProcessPulse - Monitorowanie Terminali</h1>
-    <p class="lead">Sprawdzaj dostępność i zarządzaj terminalami w czasie rzeczywistym. Dowiedz się więcej o możliwościach aplikacji ProcessPulse.</p>
-    <a class="btn btn-primary" href="#">Dowiedz się więcej</a>
-</div>
+    <h1 class="mb-4">ProcessPulse - Monitorowanie Terminali</h1>
+    <p class="lead mb-5">Zarządzaj i monitoruj terminale oraz procesy z ProcessPulse.</p>
 
-<div class="row mt-5">
-    <div class="col-md-6">
-        <div class="card bg-dark text-white">
-            <div class="card-body">
-                <h2>Rozpocznij z ProcessPulse</h2>
-                <p>ProcessPulse pozwala monitorować i zarządzać terminalami przy użyciu C# i Blazor. Zobacz wykres dostępności terminali w czasie rzeczywistym.</p>
-                <a class="btn btn-outline-light" href="#">Dowiedz się więcej o ProcessPulse</a>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Flota</h5>
+                    <p class="card-text">Sprawdzanie dostępu do bazy floty i Safo poprzez DBLink.</p>
+                    <NavLink class="btn btn-primary" href="/flota">Dowiedz się więcej</NavLink>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <SurveyPrompt Title="Jak działa ProcessPulse dla Ciebie?" />
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Safo</h5>
+                    <p class="card-text">Sprawdzanie dostępu do webservices i połączenie ze szyną danych.</p>
+                    <NavLink class="btn btn-primary" href="/safo">Dowiedz się więcej</NavLink>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Ustawienia</h5>
+                    <p class="card-text">Dostosuj ustawienia swojego konta i aplikacji.</p>
+                    <NavLink class="btn btn-primary" href="/settings">Dowiedz się więcej</NavLink>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Zarządzanie Terminalami</h5>
+                    <p class="card-text">Zarządzaj nazwami terminali i monitorowanymi procesami.</p>
+                    <NavLink class="btn btn-primary" href="/terminalmanagement">Dowiedz się więcej</NavLink>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Wybór Terminali</h5>
+                    <p class="card-text">Sprawdzanie wykorzystania procesów na wykresach.</p>
+                    <NavLink class="btn btn-primary" href="/terminalselection">Dowiedz się więcej</NavLink>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .card h5 {
+            color: #6f42c1; 
+        }
+
+    .btn-primary {
+        background-color: #6f42c1;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: darken(#6f42c1, 5%);
+        }
+
+    .container h1, .container p.lead {
+        color: #6f42c1; 
+    }
+</style>
