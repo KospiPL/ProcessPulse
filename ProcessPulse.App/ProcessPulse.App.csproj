@@ -63,6 +63,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\..\GearCode\GC.NuGet\GearCode.Common.Auth.Forms\GearCode.Common.Auth.Forms\GearCode.Common.Auth.Forms.csproj" />
       <ProjectReference Include="..\ProcessPulse.Class\ProcessPulse.Class.csproj" />
     </ItemGroup>
 
